@@ -23,7 +23,7 @@ const Navigation = ({
         <Text
           style={[styles.tabText, activeTab === "Home" && styles.activeText]}
         >
-          Home
+          首页
         </Text>
       </TouchableOpacity>
 
@@ -39,7 +39,7 @@ const Navigation = ({
         <Text
           style={[styles.tabText, activeTab === "History" && styles.activeText]}
         >
-          History
+          图表
         </Text>
       </TouchableOpacity>
 
@@ -57,14 +57,14 @@ const Navigation = ({
         onPress={() => onTabPress("Cards")}
       >
         <Ionicons
-          name={activeTab === "Profile" ? "person" : "person-outline"}
+          name={activeTab === "Cards" ? "person" : "person-outline"}
           size={24}
-          color={activeTab === "Profile" ? "#FF6B6B" : "#666"}
+          color={activeTab === "Cards" ? "#FF6B6B" : "#666"}
         />
         <Text
-          style={[styles.tabText, activeTab === "Profile" && styles.activeText]}
+          style={[styles.tabText, activeTab === "Cards" && styles.activeText]}
         >
-          Cards
+          卡片
         </Text>
       </TouchableOpacity>
 
@@ -80,7 +80,7 @@ const Navigation = ({
         <Text
           style={[styles.tabText, activeTab === "Menu" && styles.activeText]}
         >
-          Menu
+          我的
         </Text>
       </TouchableOpacity>
     </View>

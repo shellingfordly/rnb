@@ -40,7 +40,6 @@ export default function CashScreen() {
           options={[
             { label: "Wells Fargo" },
             { label: "Bank of America" },
-            // 添加更多银行选项
           ]}
         />
         <Dropdown

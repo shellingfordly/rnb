@@ -57,7 +57,7 @@ function Home() {
         <View style={styles.cardContainer}>
           <View style={styles.card}>
             <View style={styles.cardHeader}>
-              <Text style={styles.balance}>$1,200</Text>
+              <Text style={styles.balance}>¥ 1,200</Text>
               <Image
                 source={require("../../assets/icon.png")}
                 style={styles.visaLogo}
