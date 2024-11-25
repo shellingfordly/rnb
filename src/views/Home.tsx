@@ -63,7 +63,6 @@ function Home() {
                 style={styles.visaLogo}
               />
             </View>
-            <Text style={styles.cardNumber}>4225 •••• •••• ••••</Text>
             <View style={styles.cardFooter}>
               <Text style={styles.cardType}>Debit Card</Text>
               <Text style={styles.cardDate}>09/24</Text>
@@ -158,16 +157,17 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
     backgroundColor: "#000",
     borderRadius: 16,
     padding: 20,
-    height: 180,
+    height: 100,
   },
   cardHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 40,
   },
   balance: {
     color: "#fff",
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   addCardButton: {
     width: 60,
-    height: 180,
+    height: 100,
     borderWidth: 2,
     borderStyle: "dashed",
     borderColor: "#ddd",
@@ -236,7 +236,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 16,
   },
   transactionTitle: {
     fontSize: 18,

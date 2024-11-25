@@ -1,46 +1,44 @@
 import React, { memo } from "react";
 import {
+  StyleSheet,
+  FlatList,
   View,
   Text,
-  Image,
-  StyleSheet,
   TouchableOpacity,
-  Dimensions,
-  FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { BarChart } from "react-native-chart-kit";
+import BillItem from "../../components/BillItem";
+import Chart from "./Chart";
 
-const TransactionItem = memo(({ item }: { item: Transaction }) => (
-  <TouchableOpacity style={styles.transactionItem}>
-    <View style={[styles.avatar, { backgroundColor: item.iconBgColor }]}>
-      <Image source={item.icon} style={styles.icon} />
-    </View>
-    <View style={styles.contentContainer}>
-      <View style={styles.mainInfo}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text
-          style={[
-            styles.amount,
-            { color: item.amount.startsWith("+") ? "#4CAF50" : "#E94E4E" },
-          ]}
-        >
-          {item.amount}
-        </Text>
-      </View>
-      <Text style={styles.date}>{item.date}</Text>
-    </View>
-  </TouchableOpacity>
-));
-
-interface Transaction {
-  id: string;
-  name: string;
-  date: string;
-  amount: string;
-  icon: any;
-  iconBgColor: string;
-}
+// 示例数据生成函数
+const generateItems = (): BillItem[] => {
+  return [
+    {
+      id: "1",
+      name: "Dribbble Premium",
+      date: "3 Des 2021",
+      amount: "-$180",
+      icon: require("../../../assets/icon.png"),
+      iconBgColor: "#EA4C89",
+    },
+    {
+      id: "2",
+      name: "Snapchat Ads",
+      date: "3 Des 2021",
+      amount: "+$24",
+      icon: require("../../../assets/icon.png"),
+      iconBgColor: "#FFFC00",
+    },
+    {
+      id: "3",
+      name: "Skype Premium",
+      date: "3 Des 2021",
+      amount: "-$60",
+      icon: require("../../../assets/icon.png"),
+      iconBgColor: "#FFFC00",
+    },
+  ];
+};
 
 const StatsSection = () => {
   const chartData = {
@@ -78,25 +76,7 @@ const StatsSection = () => {
       <Text style={styles.totalAmount}>$1,200</Text>
       <Text style={styles.growthRate}>+2.6% from last week</Text>
 
-      <BarChart
-        data={chartData}
-        width={Dimensions.get("window").width - 32}
-        height={200}
-        yAxisLabel="$"
-        yAxisSuffix=""
-        chartConfig={{
-          backgroundColor: "#fff",
-          backgroundGradientFrom: "#fff",
-          backgroundGradientTo: "#fff",
-          decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          barPercentage: 0.5,
-          propsForBackgroundLines: {
-            strokeWidth: 0,
-          },
-        }}
-        style={styles.chart}
-      />
+      <Chart />
 
       <View style={styles.transactionHeader}>
         <Text style={styles.sectionTitle}>Recent Transactions</Text>
@@ -108,42 +88,17 @@ const StatsSection = () => {
   );
 };
 
-// 示例数据生成函数
-const generateItems = (): Transaction[] => {
-  return [
-    {
-      id: "1",
-      name: "Dribbble Premium",
-      date: "3 Des 2021",
-      amount: "-$180",
-      icon: require("../../assets/icon.png"),
-      iconBgColor: "#EA4C89",
-    },
-    {
-      id: "2",
-      name: "Snapchat Ads",
-      date: "3 Des 2021",
-      amount: "+$24",
-      icon: require("../../assets/icon.png"),
-      iconBgColor: "#FFFC00",
-    },
-    // ... 添加更多交易记录
-  ];
-};
-
 const TransactionList = () => {
   const data = generateItems();
 
   return (
-    <View style={styles.container}>
-      <StatsSection />
-      <FlatList
-        data={data}
-        renderItem={({ item }) => <TransactionItem item={item} />}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
-      />
-    </View>
+    <FlatList
+      style={styles.container}
+      ListHeaderComponent={<StatsSection />}
+      data={data}
+      renderItem={({ item }) => <BillItem item={item} />}
+      keyExtractor={(item) => item.id}
+    />
   );
 };
 
@@ -160,7 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     borderRadius: 25,
     padding: 4,
-    marginBottom: 24,
+    marginBottom: 15,
   },
   periodButton: {
     paddingVertical: 8,
@@ -209,18 +164,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 24,
     marginBottom: 16,
+    paddingHorizontal: 16,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
   },
-  listContainer: {
-    paddingHorizontal: 16,
-  },
   transactionItem: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
+    paddingHorizontal: 30,
   },
   avatar: {
     width: 48,

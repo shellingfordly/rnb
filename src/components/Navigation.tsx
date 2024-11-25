@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons"; // 需要安装 @expo/vector-icons
+import { Ionicons } from "@expo/vector-icons";
 
-const BottomNavigation = ({
+const Navigation = ({
   activeTab,
   onTabPress,
 }: {
@@ -43,9 +43,9 @@ const BottomNavigation = ({
         </Text>
       </TouchableOpacity>
 
-     <TouchableOpacity 
+      <TouchableOpacity
         style={styles.cashButton}
-        onPress={() => onTabPress('Cash')}
+        onPress={() => onTabPress("Cash")}
       >
         <View style={styles.cashCircle}>
           <Ionicons name="wallet-outline" size={28} color="#FFF" />
@@ -54,7 +54,7 @@ const BottomNavigation = ({
 
       <TouchableOpacity
         style={styles.tabItem}
-        onPress={() => onTabPress("Profile")}
+        onPress={() => onTabPress("Cards")}
       >
         <Ionicons
           name={activeTab === "Profile" ? "person" : "person-outline"}
@@ -64,7 +64,7 @@ const BottomNavigation = ({
         <Text
           style={[styles.tabText, activeTab === "Profile" && styles.activeText]}
         >
-          Profile
+          Cards
         </Text>
       </TouchableOpacity>
 
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     color: "#E94E4E",
   },
   cashButton: {
-    marginBottom: 30,
+    marginBottom: 10,
     flex: 1,
     alignItems: "center",
   },
@@ -134,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomNavigation;
+export default Navigation;

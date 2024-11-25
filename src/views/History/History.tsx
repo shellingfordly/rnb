@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import TransactionList from "../components/TransactionList";
+import BillList from "./BillList";
 
 export default function HistoryScreen() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +26,7 @@ export default function HistoryScreen() {
           <Ionicons name="download-outline" size={24} color="#666" />
         </TouchableOpacity>
       </View>
-      <TransactionList />
+      <BillList />
     </View>
   );
 }
@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F1F3F4",
     borderRadius: 8,
-    margin: 16,
+    marginTop: 16,
+    marginHorizontal: 16,
     padding: 12,
   },
   searchInput: {

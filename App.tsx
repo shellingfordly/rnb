@@ -3,11 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Home from "./src/views/Home";
-import History from "./src/views/History";
-import Cash from "./src/views/Cash";
-import Profile from "./src/views/Profile";
+import History from "./src/views/History/History";
+import Cash from "./src/views/Cash/Cash";
+import Cards from "./src/views/Cards/Cards";
 import Menu from "./src/views/Menu";
-import BottomNavigation from "./src/components/BottomNavigation";
+import Navigation from "./src/components/Navigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,17 +16,10 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         tabBar={(props) => (
-          <BottomNavigation
+          <Navigation
             activeTab={props.state.routes[props.state.index].name}
             onTabPress={(tab) => {
-              const event = props.navigation.emit({
-                type: "tabPress",
-                target: props.state.routes.find((r) => r.name === tab)?.key,
-                canPreventDefault: true,
-              });
-              if (!event.defaultPrevented) {
-                props.navigation.navigate(tab);
-              }
+              props.navigation.navigate(tab);
             }}
           />
         )}
@@ -37,7 +30,7 @@ export default function App() {
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="History" component={History} />
         <Tab.Screen name="Cash" component={Cash} />
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Cards" component={Cards} />
         <Tab.Screen name="Menu" component={Menu} />
       </Tab.Navigator>
     </NavigationContainer>
