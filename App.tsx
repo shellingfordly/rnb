@@ -25,7 +25,9 @@ function CardStackScreen() {
 
 export default function App() {
   return (
-    <SafeAreaProvider style={{ flex: 1, paddingTop: 20 }}>
+    <SafeAreaProvider
+      style={{ flex: 1, paddingTop: 20, backgroundColor: "white" }}
+    >
       <NavigationContainer>
         <Tab.Navigator
           tabBar={(props) => (

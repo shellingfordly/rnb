@@ -19,7 +19,7 @@ export default function ChartScreen() {
 
   const pieData = billListByCategory.map((item) => ({
     name: item.name,
-    value: item.value / amountInfo.expense * 100,
+    value: (item.value / amountInfo.expense) * 100,
   }));
 
   return (
@@ -55,6 +55,7 @@ export default function ChartScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",
@@ -67,7 +68,6 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   portfolioCard: {
-    backgroundColor: "white",
     borderRadius: 16,
     padding: 16,
   },

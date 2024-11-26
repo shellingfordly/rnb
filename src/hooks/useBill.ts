@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
 
@@ -113,41 +113,45 @@ export function useBill() {
       category: "other"
     },
   ]
-
   const [billList, setBillList] = useLocalStorage<BillItem[]>('Bill_List', []);
-  const [billListByCategory, setBillListByCategory] = useState<BillCategoryInfo[]>([]);
-  const [amountInfo, setAmountInfo] = useState({
-    income: 0,
-    expense: 0,
-  })
+  const { billListByCategory, amountInfo } = useMemo(() => {
+    if (!billList?.length) {
+      return {
+        billListByCategory: [],
+        amountInfo: { income: 0, expense: 0 }
+      };
+    }
 
-  useEffect(() => {
-    const _billCategoryMap: Record<string, BillCategoryInfo> = {}
-    const _billCategory = []
+    const _billCategoryMap: Record<string, BillCategoryInfo> = {};
+    const _billCategory: BillCategoryInfo[] = [];
     const _amountInfo = {
       income: 0,
       expense: 0,
-    }
-    for (const item of billList) {
-      // 计算总收入和总支出
-      _amountInfo[item.type] += item.amount
+    };
 
-      // 计算每个分类的收入和支出
-      if (_billCategoryMap[item.category]) {
-        _billCategoryMap[item.category].value += item.amount;
-      } else {
-        _billCategoryMap[item.category] = { name: item.category, value: item.amount, type: item.type };
-        _billCategory.push(_billCategoryMap[item.category])
+    billList.forEach(item => {
+      _amountInfo[item.type] += item.amount;
+
+      if (!_billCategoryMap[item.category]) {
+        _billCategoryMap[item.category] = {
+          name: item.category,
+          value: 0,
+          type: item.type
+        };
+        _billCategory.push(_billCategoryMap[item.category]);
       }
-    }
-    setBillListByCategory(_billCategory)
-    setAmountInfo(_amountInfo)
+      _billCategoryMap[item.category].value += item.amount;
+    });
+
+    return {
+      billListByCategory: _billCategory,
+      amountInfo: _amountInfo
+    };
   }, [billList]);
 
   return {
     BillCategoryColor,
     billList,
-    setBillList,
     billListByCategory,
     amountInfo,
   }
