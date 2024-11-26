@@ -11,9 +11,14 @@ import LineChartComp from "./LineChart";
 import PieChartComp from "./PieChart";
 import Dropdown from "components/Dropdown";
 import { useBill } from "hooks/useBill";
+import DateSelect from "components/DateSelect";
 
 export default function ChartScreen() {
   const [timeRange, setTimeRange] = useState("12 m.");
+  const [selectedDate, setSelectedDate] = useState({
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+  });
   const { billList, billListByCategory, amountInfo } = useBill();
   const chartData = {
     labels: billList
@@ -44,12 +49,14 @@ export default function ChartScreen() {
                 <Ionicons name="chevron-down" size={20} color="#000" />
               </View>
             }
-            options={[
-              { label: "12 m." },
-              { label: "6 m." },
-              { label: "3 m." },
-              { label: "1 m." },
-            ]}
+            optionNode={
+              <DateSelect
+                value={selectedDate}
+                onChange={(year, month) => {
+                  setSelectedDate({ year, month });
+                }}
+              />
+            }
           />
         </View>
       </View>

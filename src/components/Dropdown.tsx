@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 interface DropdownProps {
   title: string;
   header: React.ReactNode;
-  options: { icon?: string; label: string; color?: string }[];
+  options?: { icon?: string; label: string; color?: string }[];
+  optionNode?: React.ReactNode;
   onSelect: (value: string) => void;
 }
 
@@ -20,6 +20,7 @@ export default function Dropdown({
   title,
   header,
   options,
+  optionNode,
   onSelect,
 }: DropdownProps) {
   const [visible, setVisible] = useState(false);
@@ -37,31 +38,34 @@ export default function Dropdown({
         onRequestClose={() => setVisible(false)}
       >
         <Pressable style={styles.overlay} onPress={() => setVisible(false)}>
-          <View style={styles.modal}>
+          <Pressable style={styles.modal} onPress={(e) => e.stopPropagation()}>
             <Text style={styles.modalTitle}>{title}</Text>
-            {options.map((option, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.option}
-                onPress={() => {
-                  onSelect(option.label);
-                  setVisible(false);
-                }}
-              >
-                {option.icon && (
-                  <View
-                    style={[
-                      styles.optionIcon,
-                      option.color ? { backgroundColor: option.color } : {},
-                    ]}
-                  >
-                    <Text>{option.icon}</Text>
-                  </View>
-                )}
-                <Text style={styles.optionLabel}>{option.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+            {optionNode && !options && optionNode}
+            {options &&
+              !optionNode &&
+              options.map((option, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.option}
+                  onPress={() => {
+                    onSelect(option.label);
+                    setVisible(false);
+                  }}
+                >
+                  {option.icon && (
+                    <View
+                      style={[
+                        styles.optionIcon,
+                        option.color ? { backgroundColor: option.color } : {},
+                      ]}
+                    >
+                      <Text>{option.icon}</Text>
+                    </View>
+                  )}
+                  <Text style={styles.optionLabel}>{option.label}</Text>
+                </TouchableOpacity>
+              ))}
+          </Pressable>
         </Pressable>
       </Modal>
     </>
