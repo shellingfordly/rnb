@@ -35,18 +35,14 @@ export default function CashScreen() {
       <View style={styles.selectBox}>
         <Dropdown
           title="Wells Fargo"
-          value="Sitti Marfuah"
           onSelect={setSelectedBank}
-          options={[
-            { label: "Wells Fargo" },
-            { label: "Bank of America" },
-          ]}
+          header={<Text>Wells Fargo</Text>}
+          options={[{ label: "Wells Fargo" }, { label: "Bank of America" }]}
         />
         <Dropdown
           title="Category"
-          value={selectedCategory}
-          icon={<Text>🎬</Text>}
           onSelect={setSelectedCategory}
+          header={<Text>Category</Text>}
           options={[
             { label: "Food", icon: "🍔", color: "#E8F5E9" },
             { label: "Travel", icon: "✈️", color: "#FFF3E0" },

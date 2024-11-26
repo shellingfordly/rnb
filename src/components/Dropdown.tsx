@@ -10,18 +10,14 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 interface DropdownProps {
-  value: string;
   title: string;
-  icon?: React.ReactNode;
-  header?: React.ReactNode;
+  header: React.ReactNode;
   options: { icon?: string; label: string; color?: string }[];
   onSelect: (value: string) => void;
 }
 
 export default function Dropdown({
-  value,
   title,
-  icon,
   header,
   options,
   onSelect,
@@ -30,21 +26,8 @@ export default function Dropdown({
 
   return (
     <>
-      <TouchableOpacity style={styles.select} onPress={() => setVisible(true)}>
-        {header ? (
-          header
-        ) : (
-          <View>
-            <View style={[styles.iconContainer, icon ? {} : styles.avatar]}>
-              {icon || <Text>SM</Text>}
-            </View>
-            <View>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.value}>{value}</Text>
-            </View>
-          </View>
-        )}
-        <Ionicons name="chevron-down" size={24} color="black" />
+      <TouchableOpacity onPress={() => setVisible(true)}>
+        {header}
       </TouchableOpacity>
 
       <Modal
@@ -86,14 +69,6 @@ export default function Dropdown({
 }
 
 const styles = StyleSheet.create({
-  select: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 15,
-    backgroundColor: "#f5f5f5",
-    borderRadius: 12,
-    justifyContent: "space-between",
-  },
   iconContainer: {
     width: 40,
     height: 40,

@@ -1,7 +1,6 @@
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useLocalStorage } from "./useLocalStorage";
-
 
 export const BillCategoryColor: Record<string, string> = {
   food: "#FFE4F3", // 餐饮
