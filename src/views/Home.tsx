@@ -24,7 +24,7 @@ export default function Home() {
       <View style={styles.fixedContent}>
         {/* 头部 */}
         <View style={styles.header}>
-          <Text style={styles.title}>Banksad</Text>
+          <Text style={styles.title}>RNB</Text>
           <TouchableOpacity>
             <Ionicons name="notifications-outline" size={24} color="#000" />
           </TouchableOpacity>
