@@ -8,38 +8,15 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useCard } from "hooks/useCard";
+import { useNavigation } from "@react-navigation/native";
+import { useBill } from "hooks/useBill";
+import BillIcon from "components/BillIcon";
 
-function Home() {
-  const transactions = [
-    {
-      id: "1",
-      name: "Dribbble Premium",
-      date: "3 Des 2021",
-      amount: "-$180",
-      icon: require("../../assets/icon.png"),
-      bgColor: "#FFE4F3",
-      type: "expense",
-    },
-    {
-      id: "2",
-      name: "Snapchat Ads",
-      date: "3 Des 2021",
-      amount: "+$24",
-      icon: require("../../assets/icon.png"),
-      bgColor: "#FFE4BA",
-      type: "income",
-    },
-    {
-      id: "3",
-      name: "Skype Premium",
-      date: "3 Des 2021",
-      amount: "-$60",
-      icon: require("../../assets/icon.png"),
-      bgColor: "#E4EEFF",
-      type: "expense",
-    },
-    // ... 更多交易数据
-  ];
+export default function Home() {
+  const navigation = useNavigation<any>();
+  const { cardList } = useCard();
+  const { billList, BillCategoryColor } = useBill();
 
   return (
     <View style={styles.container}>
@@ -54,74 +31,81 @@ function Home() {
         </View>
 
         {/* 银行卡 */}
-        <View style={styles.cardContainer}>
-          <View style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.balance}>¥ 1,200</Text>
-              <Image
-                source={require("../../assets/icon.png")}
-                style={styles.visaLogo}
-              />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.cardContainer}
+          contentContainerStyle={styles.cardContentContainer}
+        >
+          {cardList.map((card, index) => (
+            <View key={index} style={styles.card}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.balance}>{card.name}</Text>
+                <Image
+                  source={require("../../assets/icon.png")}
+                  style={styles.visaLogo}
+                />
+              </View>
+              <View style={styles.cardFooter}>
+                <Text style={styles.cardType}>{card.type}</Text>
+                <Text style={styles.cardDate}>{card.cardNumber}</Text>
+              </View>
             </View>
-            <View style={styles.cardFooter}>
-              <Text style={styles.cardType}>Debit Card</Text>
-              <Text style={styles.cardDate}>09/24</Text>
-            </View>
-          </View>
-          <View style={styles.addCardButton}>
+          ))}
+          <TouchableOpacity
+            style={styles.addCardButton}
+            onPress={() => navigation.navigate("Cards", { screen: "AddCard" })}
+          >
             <Ionicons name="add" size={24} color="#ddd" />
-          </View>
-        </View>
+          </TouchableOpacity>
+        </ScrollView>
 
         {/* 操作按钮 */}
         <View style={styles.actions}>
           <TouchableOpacity
             style={[styles.actionButton, styles.transferButton]}
           >
-            <Ionicons name="paper-plane-outline" size={20} color="#000" />
-            <Text style={styles.actionText}>Transfer</Text>
+            <Ionicons name="wallet-outline" size={20} color="#000" />
+            <Text style={styles.actionText}>收入</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.actionButton, styles.requestButton]}>
-            <Ionicons name="download-outline" size={20} color="#000" />
-            <Text style={styles.actionText}>Request</Text>
+            <Ionicons name="trending-up-outline" size={20} color="#000" />
+            <Text style={styles.actionText}>支出</Text>
           </TouchableOpacity>
         </View>
 
-        {/* 交易标题 */}
-        <View style={styles.transactionHeader}>
-          <Text style={styles.transactionTitle}>Recent Transactions</Text>
+        {/* 账单标题 */}
+        <View style={styles.billHeader}>
+          <Text style={styles.billTitle}>全部账单</Text>
           <TouchableOpacity>
             <Ionicons name="ellipsis-horizontal" size={20} color="#000" />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* 可滚动的交易列表 */}
-      <ScrollView
-        style={styles.transactionList}
-        showsVerticalScrollIndicator={false}
-      >
-        {transactions.map((transaction) => (
-          <View key={transaction.id} style={styles.transactionItem}>
+      {/* 账单列表 */}
+      <ScrollView style={styles.billList} showsVerticalScrollIndicator={false}>
+        {billList.map((bill) => (
+          <View key={bill.id} style={styles.billItem}>
             <View
               style={[
-                styles.transactionIcon,
-                { backgroundColor: transaction.bgColor },
+                styles.billIcon,
+                { backgroundColor: BillCategoryColor[bill.category] },
               ]}
             >
-              <Image source={transaction.icon} style={styles.appIcon} />
+              <BillIcon type={bill.category} />
             </View>
-            <View style={styles.transactionInfo}>
-              <Text style={styles.transactionName}>{transaction.name}</Text>
-              <Text style={styles.transactionDate}>{transaction.date}</Text>
+            <View style={styles.billInfo}>
+              <Text style={styles.billName}>{bill.name}</Text>
+              <Text style={styles.billDate}>{bill.date}</Text>
             </View>
             <Text
               style={[
-                styles.transactionAmount,
-                transaction.type === "expense" ? styles.expense : styles.income,
+                styles.billAmount,
+                bill.type === "expense" ? styles.expense : styles.income,
               ]}
             >
-              {transaction.amount}
+              {bill.amount}
             </Text>
           </View>
         ))}
@@ -151,12 +135,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   cardContainer: {
-    flexDirection: "row",
-    gap: 16,
     marginBottom: 24,
   },
+  cardContentContainer: {
+    gap: 16,
+    paddingRight: 16,
+  },
   card: {
-    flex: 1,
+    width: 280,
     flexDirection: "column",
     justifyContent: "space-between",
     backgroundColor: "#000",
@@ -229,23 +215,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
-  transactions: {
-    flex: 1,
-  },
-  transactionHeader: {
+  billHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  transactionTitle: {
+  billTitle: {
     fontSize: 18,
     fontWeight: "600",
   },
-  transactionList: {
+  billList: {
     flex: 1,
     paddingHorizontal: 20,
   },
-  transactionItem: {
+  billItem: {
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
@@ -264,7 +247,7 @@ const styles = StyleSheet.create({
   listFooter: {
     height: 20, // 底部留白
   },
-  transactionIcon: {
+  billIcon: {
     width: 48,
     height: 48,
     borderRadius: 12,
@@ -275,20 +258,20 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
-  transactionInfo: {
+  billInfo: {
     flex: 1,
     marginLeft: 12,
   },
-  transactionName: {
+  billName: {
     fontSize: 16,
     fontWeight: "500",
     marginBottom: 4,
   },
-  transactionDate: {
+  billDate: {
     fontSize: 14,
     color: "#666",
   },
-  transactionAmount: {
+  billAmount: {
     fontSize: 16,
     fontWeight: "600",
   },
@@ -299,5 +282,3 @@ const styles = StyleSheet.create({
     color: "#4CAF50",
   },
 });
-
-export default Home;

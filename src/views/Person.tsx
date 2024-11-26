@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function MenuScreen() {
+export default function PersonScreen() {
   return (
     <View style={styles.container}>
       <Text>状态</Text>

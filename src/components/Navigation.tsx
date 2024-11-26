@@ -57,7 +57,7 @@ const Navigation = ({
         onPress={() => onTabPress("Cards")}
       >
         <Ionicons
-          name={activeTab === "Cards" ? "person" : "person-outline"}
+          name={activeTab === "Cards" ? "card" : "card-outline"}
           size={24}
           color={activeTab === "Cards" ? "#FF6B6B" : "#666"}
         />
@@ -70,15 +70,15 @@ const Navigation = ({
 
       <TouchableOpacity
         style={styles.tabItem}
-        onPress={() => onTabPress("Menu")}
+        onPress={() => onTabPress("Person")}
       >
         <Ionicons
-          name={activeTab === "Menu" ? "menu" : "menu-outline"}
+          name={activeTab === "Person" ? "person" : "person-outline"}
           size={24}
-          color={activeTab === "Menu" ? "#FF6B6B" : "#666"}
+          color={activeTab === "Person" ? "#FF6B6B" : "#666"}
         />
         <Text
-          style={[styles.tabText, activeTab === "Menu" && styles.activeText]}
+          style={[styles.tabText, activeTab === "Person" && styles.activeText]}
         >
           我的
         </Text>

@@ -1,8 +1,5 @@
 import { useLocalStorage } from "./useLocalStorage";
 
-
-
-
 export function useCard() {
   const [cardList, setCardList] = useLocalStorage<CardType[]>('Card_List', []);
 

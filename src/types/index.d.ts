@@ -1,11 +1,12 @@
+type BillType = "expense" | "income";
 
 interface BillItem {
   id: string;
   name: string;
   date: string;
-  amount: string;
-  icon: any;
-  iconBgColor: string;
+  amount: number;
+  type: BillType; // 收入/支出
+  category: string; // 分类
 }
 
 interface CardType {
