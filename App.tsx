@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"; // 添加这行
 import Toast from 'react-native-toast-message'
 import Home from "./src/views/Home";
-import History from "./src/views/History/History";
+import Chart from "./src/views/Chart/Chart";
 import Cash from "./src/views/Cash/Cash";
 import Cards from "./src/views/Cards/Cards";
 import Person from "./src/views/Person";
@@ -40,7 +40,7 @@ export default function App() {
         }}
       >
         <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="History" component={History} />
+        <Tab.Screen name="Chart" component={Chart} />
         <Tab.Screen name="Cash" component={Cash} />
         <Tab.Screen name="Cards" component={CardStackScreen} />
         <Tab.Screen name="Person" component={Person} />

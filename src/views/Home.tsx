@@ -16,7 +16,7 @@ import BillItem from "components/BillItem";
 export default function Home() {
   const navigation = useNavigation<any>();
   const { cardList } = useCard();
-  const { billList, BillCategoryColor } = useBill();
+  const { billList } = useBill();
 
   return (
     <View style={styles.container}>

@@ -29,15 +29,15 @@ const Navigation = ({
 
       <TouchableOpacity
         style={styles.tabItem}
-        onPress={() => onTabPress("History")}
+        onPress={() => onTabPress("Chart")}
       >
         <Ionicons
-          name={activeTab === "History" ? "time" : "time-outline"}
+          name={activeTab === "Chart" ? "time" : "time-outline"}
           size={24}
-          color={activeTab === "History" ? "#FF6B6B" : "#666"}
+          color={activeTab === "Chart" ? "#FF6B6B" : "#666"}
         />
         <Text
-          style={[styles.tabText, activeTab === "History" && styles.activeText]}
+          style={[styles.tabText, activeTab === "Chart" && styles.activeText]}
         >
           图表
         </Text>

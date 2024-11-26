@@ -9,6 +9,13 @@ interface BillItem {
   category: string; // 分类
 }
 
+// 分类数据信息
+interface BillCategoryInfo {
+  name: string; // 分类名
+  value: number; // 金额
+  type: string; // 类型
+}
+
 interface CardType {
   id?: string; // 唯一标识
   name: string; // 卡名
