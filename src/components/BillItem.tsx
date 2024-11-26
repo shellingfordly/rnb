@@ -1,67 +1,80 @@
+import { BillCategoryColor } from "hooks/useBill";
 import React, { memo } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import BillIcon from "./BillIcon";
 
 const BillItem = memo(({ item }: { item: BillItem }) => (
-  <TouchableOpacity style={styles.transactionItem}>
-    <View style={[styles.avatar, { backgroundColor: item.iconBgColor }]}>
-      <Image source={item.icon} style={styles.icon} />
+  <View style={styles.billItem}>
+    <View
+      style={[
+        styles.billIcon,
+        { backgroundColor: BillCategoryColor[item.category] },
+      ]}
+    >
+      <BillIcon type={item.category} />
     </View>
-    <View style={styles.contentContainer}>
-      <View style={styles.mainInfo}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text
-          style={[
-            styles.amount,
-            { color: item.amount.startsWith("+") ? "#4CAF50" : "#E94E4E" },
-          ]}
-        >
-          {item.amount}
-        </Text>
-      </View>
-      <Text style={styles.date}>{item.date}</Text>
+    <View style={styles.billInfo}>
+      <Text style={styles.billName}>{item.name}</Text>
+      <Text style={styles.billDate}>{item.date}</Text>
     </View>
-  </TouchableOpacity>
+    <Text
+      style={[
+        styles.billAmount,
+        item.type === "expense" ? styles.expense : styles.income,
+      ]}
+    >
+      {item.amount}
+    </Text>
+  </View>
 ));
 
 const styles = StyleSheet.create({
-  transactionItem: {
+  billItem: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
-    paddingHorizontal: 30,
+    padding: 12,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  avatar: {
+  billIcon: {
     width: 48,
     height: 48,
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 12,
   },
-  icon: {
-    width: 24,
-    height: 24,
-  },
-  contentContainer: {
+  billInfo: {
     flex: 1,
+    marginLeft: 12,
   },
-  mainInfo: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  billName: {
+    fontSize: 16,
+    fontWeight: "500",
     marginBottom: 4,
   },
-  name: {
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  amount: {
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  date: {
+  billDate: {
     fontSize: 14,
     color: "#666",
   },
+  billAmount: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  expense: {
+    color: "#FF4B55",
+  },
+  income: {
+    color: "#4CAF50",
+  },
 });
 
-export default memo(BillItem);
+export default BillItem;

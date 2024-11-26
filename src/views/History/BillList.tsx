@@ -9,36 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import BillItem from "../../components/BillItem";
 import Chart from "./Chart";
-
-// 示例数据生成函数
-const generateItems = (): BillItem[] => {
-  return [
-    {
-      id: "1",
-      name: "Dribbble Premium",
-      date: "3 Des 2021",
-      amount: "-$180",
-      icon: require("../../../assets/icon.png"),
-      iconBgColor: "#EA4C89",
-    },
-    {
-      id: "2",
-      name: "Snapchat Ads",
-      date: "3 Des 2021",
-      amount: "+$24",
-      icon: require("../../../assets/icon.png"),
-      iconBgColor: "#FFFC00",
-    },
-    {
-      id: "3",
-      name: "Skype Premium",
-      date: "3 Des 2021",
-      amount: "-$60",
-      icon: require("../../../assets/icon.png"),
-      iconBgColor: "#FFFC00",
-    },
-  ];
-};
+import { useBill } from "hooks/useBill";
 
 const StatsSection = () => {
   const chartData = {
@@ -88,14 +59,14 @@ const StatsSection = () => {
   );
 };
 
-const TransactionList = () => {
-  const data = generateItems();
+const BillList = () => {
+  const { billList } = useBill();
 
   return (
     <FlatList
       style={styles.container}
       ListHeaderComponent={<StatsSection />}
-      data={data}
+      data={billList}
       renderItem={({ item }) => <BillItem item={item} />}
       keyExtractor={(item) => item.id}
     />
@@ -105,6 +76,7 @@ const TransactionList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
   },
   statsContainer: {
     padding: 16,
@@ -210,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(TransactionList);
+export default memo(BillList);

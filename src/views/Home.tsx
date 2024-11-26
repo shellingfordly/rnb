@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useCard } from "hooks/useCard";
 import { useNavigation } from "@react-navigation/native";
 import { useBill } from "hooks/useBill";
-import BillIcon from "components/BillIcon";
+import BillItem from "components/BillItem";
 
 export default function Home() {
   const navigation = useNavigation<any>();
@@ -42,7 +42,7 @@ export default function Home() {
               <View style={styles.cardHeader}>
                 <Text style={styles.balance}>{card.name}</Text>
                 <Image
-                  source={require("../../assets/icon.png")}
+                  source={require("/assets/icon.png")}
                   style={styles.visaLogo}
                 />
               </View>
@@ -85,31 +85,9 @@ export default function Home() {
 
       {/* 账单列表 */}
       <ScrollView style={styles.billList} showsVerticalScrollIndicator={false}>
-        {billList.map((bill) => (
-          <View key={bill.id} style={styles.billItem}>
-            <View
-              style={[
-                styles.billIcon,
-                { backgroundColor: BillCategoryColor[bill.category] },
-              ]}
-            >
-              <BillIcon type={bill.category} />
-            </View>
-            <View style={styles.billInfo}>
-              <Text style={styles.billName}>{bill.name}</Text>
-              <Text style={styles.billDate}>{bill.date}</Text>
-            </View>
-            <Text
-              style={[
-                styles.billAmount,
-                bill.type === "expense" ? styles.expense : styles.income,
-              ]}
-            >
-              {bill.amount}
-            </Text>
-          </View>
+        {billList.map((item) => (
+          <BillItem key={item.id} item={item} />
         ))}
-        {/* 底部留白 */}
         <View style={styles.listFooter} />
       </ScrollView>
     </View>

@@ -1,32 +1,64 @@
-import React, { useState } from "react";
-import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useRef } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Animated,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import BillList from "./BillList";
+import LineChart from "./LineChart";
+import PieChart from "./PieChart";
 
 export default function HistoryScreen() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [timeRange, setTimeRange] = useState("12 m.");
 
-  const handleSearch = (text: string) => {
-    setSearchQuery(text);
-    // 实现搜索逻辑
+  const chartData = {
+    labels: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+    datasets: [
+      {
+        data: [0, 0, 0, 2000, 2000, 2000, 4000, 4000, 4000, 3000, 4000, 3500],
+      },
+    ],
   };
 
+  const pieData = [
+    {
+      name: "Consumer loans",
+      amount: 3861,
+      percentage: 75,
+      color: "#5C8374",
+    },
+    {
+      name: "Business loans",
+      amount: 1287,
+      percentage: 25,
+      color: "#E3A853",
+    },
+  ];
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#666" />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search by name"
-          placeholderTextColor="#666"
-          value={searchQuery}
-          onChangeText={handleSearch}
-        />
-        <TouchableOpacity>
-          <Ionicons name="download-outline" size={24} color="#666" />
-        </TouchableOpacity>
+      <View style={styles.header}>
+        <Ionicons name="arrow-back" size={24} />
+        <Text style={styles.title}>Portfolio statistics</Text>
       </View>
-      <BillList />
+
+      <View style={styles.portfolioCard}>
+        <View style={styles.headerRow}>
+          <Text style={styles.label}>The size of my portfolio</Text>
+          <TouchableOpacity style={styles.dropdown}>
+            <Text>{timeRange}</Text>
+            <Ionicons name="chevron-down" size={20} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.amountRow}>
+          <Text style={styles.amount}>¥ 514800</Text>
+          <Text style={styles.changeRate}>↓ 8% / month</Text>
+        </View>
+        <LineChart data={chartData} width={320} height={200} year="2023" />
+        <PieChart data={pieData} width={320} height={200} />
+      </View>
     </View>
   );
 }
@@ -34,20 +66,46 @@ export default function HistoryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F9FA",
   },
-  searchContainer: {
+  header: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F1F3F4",
-    borderRadius: 8,
-    marginTop: 16,
-    marginHorizontal: 16,
-    padding: 12,
+    padding: 16,
   },
-  searchInput: {
-    flex: 1,
-    marginLeft: 8,
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 16,
+  },
+  portfolioCard: {
+    backgroundColor: "white",
+    borderRadius: 16,
+    padding: 16,
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  label: {
     fontSize: 16,
+    color: "#666",
+  },
+  dropdown: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  amountRow: {
+    marginTop: 8,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  amount: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  changeRate: {
+    marginLeft: 8,
+    color: "red",
   },
 });
